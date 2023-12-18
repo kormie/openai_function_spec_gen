@@ -1,0 +1,27 @@
+---
+name: Swagger to OpenAI Spec Conversion
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  convert-spec:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Install Dependencies
+        run: |
+          pip install jsonref openai
+
+      - name: Generate OpenAI Function Spec
+        run: python ./scripts/generate_openai_function_spec.py
