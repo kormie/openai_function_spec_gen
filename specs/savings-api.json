@@ -1,0 +1,2039 @@
+{
+    "consumes": [
+        "application/json"
+    ],
+    "schemes": [
+        "http"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "This is cards service api spec.",
+        "title": "Cards Service",
+        "contact": {
+            "name": "Blue-Team",
+            "email": "blueteam@koho.ca"
+        },
+        "license": {
+            "name": "Copyright KOHO 2021"
+        },
+        "version": "0.1"
+    },
+    "host": "localhost:8601",
+    "basePath": "/savings",
+    "paths": {
+        "/account-groups/:accGroupID/design": {
+            "post": {
+                "description": "UpdateAccountCardDesign will store user's onboarding card design",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "UpdateAccountCardDesign",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/account-groups/{accGroupID}/app/cards": {
+            "get": {
+                "description": "GetAppCards returns cards to show in app.\nCancelled cards are filtered and cards are sorted with active \u0026 primary in front.",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "GetAppCards",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/cards.BaseGatewayResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/cards.CardResponse"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/account-groups/{accGroupID}/cards": {
+            "post": {
+                "description": "CreateCard will return the relevant card information",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "CreateCard creates new card with PID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/account-groups/{accGroupID}/cards/{cardID}": {
+            "get": {
+                "description": "GetGatewayCardImage returns card image for a card for API Gateway",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "GetGatewayCardImage",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "91822",
+                        "description": "Card ID",
+                        "name": "cardID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/cards.BaseGatewayResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/cards.Image"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "UpdateCard updates the status of the card given a valid status request and returns the card info after the changes.",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "UpdateCard",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "X-Account-Group-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "91822",
+                        "description": "Card ID",
+                        "name": "cardID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update Card Request",
+                        "name": "updateRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/cards.UpdateCardRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/cards.BaseGatewayResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/cards.CardResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/account-groups/{accGroupID}/cards/{cardID}/activate": {
+            "post": {
+                "description": "Activate Card activate the card in galileo",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "Activate Card",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "12345",
+                        "description": "Card Identifier",
+                        "name": "cardID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/account-groups/{accGroupID}/cards/{cardID}/design": {
+            "get": {
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Card ID",
+                        "name": "cardID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/cards.CardDesignResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/web.BaseError"
+                        }
+                    }
+                }
+            }
+        },
+        "/account-groups/{accGroupID}/cards/{cardID}/pin/commit": {
+            "post": {
+                "description": "CommitPINChange commits the pin set/reset to galileo",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "CommitPINChange",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "12345",
+                        "description": "Card Identifier",
+                        "name": "cardID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/account-groups/{accGroupID}/cards/{cardID}/pin/url": {
+            "post": {
+                "description": "CreateCardPINChangeURL creates url to Galileo form to change card PIN",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "CreateCardPINChangeURL",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "12345",
+                        "description": "Card Identifier",
+                        "name": "cardID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/cards.CreateCardPINChangeResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/account-groups/{accGroupID}/cards/{cardID}/reissue": {
+            "post": {
+                "tags": [
+                    "GatewayReissueCard"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "91822",
+                        "description": "Card ID",
+                        "name": "cardID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/cards.BaseGatewayResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/account-groups/{accGroupID}/design": {
+            "get": {
+                "tags": [
+                    "GetAccountGroupCardDesign"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/cards.CardDesignResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/account-groups/{accGroupID}/mastercard-switch": {
+            "get": {
+                "description": "GetMastercardSwitch returns the state of the mastercard switch for an account group",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "GetMastercardSwitch",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.MastercardSwitch"
+                        }
+                    }
+                }
+            }
+        },
+        "/account-groups/{accGroupID}/mastercard-switch/completed": {
+            "put": {
+                "description": "UpdateMastercardSwitchCompleted will update the MC Switch state to completed for an account group",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "UpdateMastercardSwitchCompleted",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/accounts/cards": {
+            "get": {
+                "tags": [
+                    "GetCards"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "X-Account-Group-Id",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/cards.BaseResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/cards.CardResponse"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/accounts/cards/reissue/bulk": {
+            "post": {
+                "description": "BulkReissue reissues cards in bulk",
+                "tags": [
+                    "Card",
+                    "ReissueCard"
+                ],
+                "summary": "BulkReissue",
+                "parameters": [
+                    {
+                        "description": "Bulk Reissue Card Request",
+                        "name": "bulkReissueCardRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/cards.BulkReissueCardRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/accounts/cards/status/bulk": {
+            "post": {
+                "description": "BulkCardStatusUpdate update cards status in bulk",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "BulkCardStatusUpdate",
+                "parameters": [
+                    {
+                        "description": "Bulk Card status Request",
+                        "name": "bulkCardStatusRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/cards.BulkCardStatusUpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/accounts/cards/{cardID}": {
+            "get": {
+                "description": "GetCard returns card image or card details for a card",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "GetCard",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "X-Account-Group-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "91822",
+                        "description": "Card ID",
+                        "name": "cardID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/cards.BaseGatewayResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/cards.CardResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "UpdateCard updates the status of the card given a valid status request and returns the card info after the changes.",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "UpdateCard",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "X-Account-Group-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "91822",
+                        "description": "Card ID",
+                        "name": "cardID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update Card Request",
+                        "name": "updateRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/cards.UpdateCardRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/cards.BaseGatewayResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/cards.CardResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/accounts/cards/{cardID}/reissue": {
+            "post": {
+                "description": "ReissueCard reissues the card",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "ReissueCard",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "X-Account-Group-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "91822",
+                        "description": "Card ID",
+                        "name": "cardID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/cards.BaseGatewayResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/accounts/designs": {
+            "get": {
+                "description": "GetCardDesigns returns card designs",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "GetCardDesigns",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/cards.BaseResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/designs.CardDesign"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/accounts/designs/{cardDesignID}": {
+            "get": {
+                "tags": [
+                    "GetCardDesign"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Card Design ID",
+                        "name": "cardDesignID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/cards.BaseResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/designs.CardDesign"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/account-groups/{accGroupID}/cards": {
+            "get": {
+                "description": "GetAdminCards returns cards to show in app.",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "GetAdminCards",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/cards.BaseGatewayResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/cards.CardResponse"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/account-groups/{accGroupID}/cards/design": {
+            "patch": {
+                "tags": [
+                    "AdminChangeCardDesign"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/cards.BaseGatewayResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/account-groups/{accGroupID}/cards/{cardID}": {
+            "patch": {
+                "description": "UpdateCard updates the status of the card given a valid status request and returns the card info after the changes.",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "UpdateCard",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "X-Account-Group-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "91822",
+                        "description": "Card ID",
+                        "name": "cardID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update Card Request",
+                        "name": "updateRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/cards.UpdateCardRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/cards.BaseGatewayResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/cards.CardResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/account-groups/{accGroupID}/cards/{cardID}/reissue": {
+            "patch": {
+                "tags": [
+                    "AdminReissueCard"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "91822",
+                        "description": "Card ID",
+                        "name": "cardID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/cards.BaseGatewayResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/cards/designs": {
+            "get": {
+                "tags": [
+                    "GetMastercardDesigns"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/cards.BaseResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/cards.MastercardDesign"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/mastercard-switch/joint": {
+            "post": {
+                "description": "MigrateJointToMastercard will migrate a limited number of eligible joint accounts to Mastercard",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "MigrateJointToMastercard",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/partners/account-groups/:accGroupID/cards": {
+            "get": {
+                "description": "GetPartnerCards will return the cards for a given partner user",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "GetPartnerCards",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/cards.BaseGatewayResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/cards.PartnerCardResponse"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/partners/account-groups/{accGroupID}/cards/{cardID}": {
+            "get": {
+                "description": "GetPartnerCardInfo will return the relevant card information",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "GetPartnerCardInfo",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "91822",
+                        "description": "Card ID",
+                        "name": "cardID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/cards.BaseGatewayResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/cards.PartnerCardResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "UpdateCard updates the status of the card given a valid status request and returns the card info after the changes.",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "UpdateCard",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "X-Account-Group-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "91822",
+                        "description": "Card ID",
+                        "name": "cardID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update Card Request",
+                        "name": "updateRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/cards.UpdateCardRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/cards.BaseGatewayResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/cards.CardResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/partners/account-groups/{accGroupID}/cards/{cardID}/image": {
+            "get": {
+                "description": "GetPartnerCardImage will return the link for the requested cardid\nif the card is not found, the response is Forbidden",
+                "tags": [
+                    "Card"
+                ],
+                "summary": "GetPartnerCardImage",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "91822",
+                        "description": "Card ID",
+                        "name": "cardID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/cards.BaseGatewayResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/partners/account-groups/{accGroupID}/cards/{cardID}/reissue": {
+            "post": {
+                "tags": [
+                    "GatewayReissueCard"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "koho",
+                        "description": "Organization",
+                        "name": "X-Organization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "swagger-test",
+                        "description": "User Identifier",
+                        "name": "X-User-Id",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+                        "description": "Account Group Identifier",
+                        "name": "accGroupID",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "91822",
+                        "description": "Card ID",
+                        "name": "cardID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/cards.BaseGatewayResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "cards.BaseGatewayResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "status_code": {
+                    "type": "integer"
+                },
+                "status_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "cards.BaseResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "cards.BulkCardStatusUpdateItemRequest": {
+            "type": "object",
+            "properties": {
+                "account_group_id": {
+                    "type": "string"
+                },
+                "card_id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "user_reference_id": {
+                    "description": "used only for logging/tracing",
+                    "type": "string"
+                }
+            }
+        },
+        "cards.BulkCardStatusUpdateRequest": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/cards.BulkCardStatusUpdateItemRequest"
+                    }
+                }
+            }
+        },
+        "cards.BulkReissueCardRequest": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/cards.BulkReissueItemRequest"
+                    }
+                }
+            }
+        },
+        "cards.BulkReissueItemRequest": {
+            "type": "object",
+            "properties": {
+                "account_group_id": {
+                    "type": "string"
+                },
+                "account_id": {
+                    "type": "string"
+                },
+                "card_id": {
+                    "type": "string"
+                },
+                "design": {
+                    "type": "string"
+                },
+                "option": {
+                    "type": "integer"
+                },
+                "user_reference_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "cards.CardDesignResponse": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "description": "These are not being used but are here to avoid breaking the contract in FE, consider removing this in the future",
+                    "type": "string"
+                },
+                "galileo_image_config": {
+                    "type": "string"
+                },
+                "gnd_config": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "is_available": {
+                    "type": "boolean"
+                },
+                "is_metal": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "template_image_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "cards.CardResponse": {
+            "type": "object",
+            "properties": {
+                "account_type": {
+                    "type": "string"
+                },
+                "card_id": {
+                    "type": "string"
+                },
+                "card_status": {
+                    "type": "string"
+                },
+                "distributor": {
+                    "description": "will be returned to avoid breaking changes but will always be empty since instant cards are deprecated",
+                    "type": "string"
+                },
+                "distributor_state": {
+                    "type": "string"
+                },
+                "embossed_cards": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/cards.EmbossedCard"
+                    }
+                },
+                "freeze_info": {
+                    "$ref": "#/definitions/cards.FreezeInfo"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "is_locked": {
+                    "type": "boolean"
+                },
+                "issuer": {
+                    "type": "string"
+                },
+                "last_four_digits": {
+                    "type": "string"
+                },
+                "original_card_id": {
+                    "description": "OriginalCardID contains the first card ID seen of the current card\ni.e: For reissued cards it will contain the first source_card_id",
+                    "type": "string"
+                },
+                "product_identifier": {
+                    "type": "string"
+                }
+            }
+        },
+        "cards.CreateCardPINChangeResponse": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "cards.EmbossedCard": {
+            "type": "object",
+            "properties": {
+                "created_date": {
+                    "type": "string"
+                },
+                "emboss_date": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "readable_status": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "cards.FreezeInfo": {
+            "type": "object",
+            "properties": {
+                "end_date": {
+                    "type": "string"
+                },
+                "start_date": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "cards.Image": {
+            "type": "object",
+            "properties": {
+                "image_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "cards.MastercardDesign": {
+            "type": "object",
+            "properties": {
+                "card_design": {
+                    "type": "string"
+                },
+                "colour_palette_url": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "package": {
+                    "type": "string"
+                },
+                "product_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "cards.PartnerCardResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "is_locked": {
+                    "type": "boolean"
+                },
+                "issuer": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                },
+                "virtual": {
+                    "type": "string"
+                }
+            }
+        },
+        "cards.UpdateCardRequest": {
+            "type": "object",
+            "properties": {
+                "new_status": {
+                    "type": "string"
+                }
+            }
+        },
+        "designs.CardDesign": {
+            "type": "object",
+            "properties": {
+                "category": {
+                    "type": "string"
+                },
+                "colour_palette_url": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "galileo_image_config": {
+                    "type": "string"
+                },
+                "gnd_config": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "image_url": {
+                    "type": "string"
+                },
+                "is_available": {
+                    "type": "boolean"
+                },
+                "is_metal": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "network": {
+                    "type": "string"
+                },
+                "organization": {
+                    "type": "string"
+                },
+                "short_name": {
+                    "type": "string"
+                },
+                "template_image_url": {
+                    "type": "string"
+                },
+                "template_vertical_image_url": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "entities.MastercardSwitch": {
+            "type": "object",
+            "properties": {
+                "accountGroupIdentifier": {
+                    "type": "string"
+                },
+                "completed": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "web.BaseError": {
+            "type": "object",
+            "properties": {
+                "detail": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
