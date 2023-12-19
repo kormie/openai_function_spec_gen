@@ -1,0 +1,485 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "schemes": [
+    "http"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "This is cards service api spec.",
+    "title": "Cards Service",
+    "contact": {
+      "name": "Blue-Team",
+      "email": "blueteam@koho.ca"
+    },
+    "license": {
+      "name": "Copyright KOHO 2021"
+    },
+    "version": "0.1"
+  },
+  "host": "localhost:8601",
+  "basePath": "/savings",
+  "paths": {
+    "/account-groups/:accGroupID/design": {
+      "post": {
+        "description": "UpdateAccountCardDesign will store user's onboarding card design",
+        "tags": [
+          "Card"
+        ],
+        "summary": "UpdateAccountCardDesign",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "koho",
+            "description": "Organization",
+            "name": "X-Organization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "default": "swagger-test",
+            "description": "User Identifier",
+            "name": "user_id",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "string",
+            "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+            "description": "Account Group Identifier",
+            "name": "accGroupID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/account-groups/{accGroupID}/app/cards": {
+      "get": {
+        "description": "GetAppCards returns cards to show in app.\nCancelled cards are filtered and cards are sorted with active & primary in front.",
+        "tags": [
+          "Card"
+        ],
+        "summary": "GetAppCards",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "koho",
+            "description": "Organization",
+            "name": "X-Organization",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "default": "swagger-test",
+            "description": "User Identifier",
+            "name": "X-User-Id",
+            "in": "header",
+            "required": true
+          },
+          {
+            "type": "string",
+            "default": "eea84cd4-5dac-470b-a42d-ef5f7e70ad5e",
+            "description": "Account Group Identifier",
+            "name": "accGroupID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/cards.BaseGatewayResponse"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/definitions/cards.CardResponse"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "cards.BaseGatewayResponse": {
+      "type": "object",
+      "properties": {
+        "data": {},
+        "status_code": {
+          "type": "integer"
+        },
+        "status_name": {
+          "type": "string"
+        }
+      }
+    },
+    "cards.BaseResponse": {
+      "type": "object",
+      "properties": {
+        "data": {},
+        "status": {
+          "type": "integer"
+        }
+      }
+    },
+    "cards.BulkCardStatusUpdateItemRequest": {
+      "type": "object",
+      "properties": {
+        "account_group_id": {
+          "type": "string"
+        },
+        "card_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "user_reference_id": {
+          "description": "used only for logging/tracing",
+          "type": "string"
+        }
+      }
+    },
+    "cards.BulkCardStatusUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/cards.BulkCardStatusUpdateItemRequest"
+          }
+        }
+      }
+    },
+    "cards.BulkReissueCardRequest": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/cards.BulkReissueItemRequest"
+          }
+        }
+      }
+    },
+    "cards.BulkReissueItemRequest": {
+      "type": "object",
+      "properties": {
+        "account_group_id": {
+          "type": "string"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "card_id": {
+          "type": "string"
+        },
+        "design": {
+          "type": "string"
+        },
+        "option": {
+          "type": "integer"
+        },
+        "user_reference_id": {
+          "type": "string"
+        }
+      }
+    },
+    "cards.CardDesignResponse": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "These are not being used but are here to avoid breaking the contract in FE, consider removing this in the future",
+          "type": "string"
+        },
+        "galileo_image_config": {
+          "type": "string"
+        },
+        "gnd_config": {
+          "type": "string"
+        },
+        "image_url": {
+          "type": "string"
+        },
+        "is_available": {
+          "type": "boolean"
+        },
+        "is_metal": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "template_image_url": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    },
+    "cards.CardResponse": {
+      "type": "object",
+      "properties": {
+        "account_type": {
+          "type": "string"
+        },
+        "card_id": {
+          "type": "string"
+        },
+        "card_status": {
+          "type": "string"
+        },
+        "distributor": {
+          "description": "will be returned to avoid breaking changes but will always be empty since instant cards are deprecated",
+          "type": "string"
+        },
+        "distributor_state": {
+          "type": "string"
+        },
+        "embossed_cards": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/cards.EmbossedCard"
+          }
+        },
+        "freeze_info": {
+          "$ref": "#/definitions/cards.FreezeInfo"
+        },
+        "image_url": {
+          "type": "string"
+        },
+        "is_locked": {
+          "type": "boolean"
+        },
+        "issuer": {
+          "type": "string"
+        },
+        "last_four_digits": {
+          "type": "string"
+        },
+        "original_card_id": {
+          "description": "OriginalCardID contains the first card ID seen of the current card\ni.e: For reissued cards it will contain the first source_card_id",
+          "type": "string"
+        },
+        "product_identifier": {
+          "type": "string"
+        }
+      }
+    },
+    "cards.CreateCardPINChangeResponse": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "cards.EmbossedCard": {
+      "type": "object",
+      "properties": {
+        "created_date": {
+          "type": "string"
+        },
+        "emboss_date": {
+          "type": "string"
+        },
+        "image_url": {
+          "type": "string"
+        },
+        "readable_status": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "cards.FreezeInfo": {
+      "type": "object",
+      "properties": {
+        "end_date": {
+          "type": "string"
+        },
+        "start_date": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "cards.Image": {
+      "type": "object",
+      "properties": {
+        "image_url": {
+          "type": "string"
+        }
+      }
+    },
+    "cards.MastercardDesign": {
+      "type": "object",
+      "properties": {
+        "card_design": {
+          "type": "string"
+        },
+        "colour_palette_url": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "image_url": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "package": {
+          "type": "string"
+        },
+        "product_id": {
+          "type": "integer"
+        }
+      }
+    },
+    "cards.PartnerCardResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "image_url": {
+          "type": "string"
+        },
+        "is_locked": {
+          "type": "boolean"
+        },
+        "issuer": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        },
+        "virtual": {
+          "type": "string"
+        }
+      }
+    },
+    "cards.UpdateCardRequest": {
+      "type": "object",
+      "properties": {
+        "new_status": {
+          "type": "string"
+        }
+      }
+    },
+    "designs.CardDesign": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string"
+        },
+        "colour_palette_url": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "galileo_image_config": {
+          "type": "string"
+        },
+        "gnd_config": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "image_url": {
+          "type": "string"
+        },
+        "is_available": {
+          "type": "boolean"
+        },
+        "is_metal": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "network": {
+          "type": "string"
+        },
+        "organization": {
+          "type": "string"
+        },
+        "short_name": {
+          "type": "string"
+        },
+        "template_image_url": {
+          "type": "string"
+        },
+        "template_vertical_image_url": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "entities.MastercardSwitch": {
+      "type": "object",
+      "properties": {
+        "accountGroupIdentifier": {
+          "type": "string"
+        },
+        "completed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "web.BaseError": {
+      "type": "object",
+      "properties": {
+        "detail": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
